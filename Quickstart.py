@@ -10,8 +10,8 @@ from google.auth.transport.requests import Request
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 
 # The ID and range of a sample spreadsheet.
-SAMPLE_SPREADSHEET_ID = '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms'
-SAMPLE_RANGE_NAME = 'Class Data!A2:E'
+SAMPLE_SPREADSHEET_ID = '1WS0uvF-a3Ui33ejOuZlW0wTZSjfSaXbqg3Hq_xjRuSM'
+SAMPLE_RANGE_NAME     = 'Data!A:C'
 
 def main():
     """Shows basic usage of the Sheets API.
@@ -47,10 +47,9 @@ def main():
     if not values:
         print('No data found.')
     else:
-        print('Name, Major:')
         for row in values:
-            # Print columns A and E, which correspond to indices 0 and 4.
-            print('%s, %s' % (row[0], row[4]))
+            # Print columns A through C, which correspond to indices 0 through 2.
+            print('%s, %s, %s' % (row[0], row[1], row[2]))
 
 if __name__ == '__main__':
     main()
