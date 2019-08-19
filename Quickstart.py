@@ -1,5 +1,6 @@
-# This is straight from the Google Sheets API Quickstart
 from __future__ import print_function
+import datetime
+import random
 import pickle
 import os.path
 from googleapiclient.discovery import build
@@ -10,8 +11,9 @@ from google.auth.transport.requests import Request
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 
 # The ID and range of a sample spreadsheet.
-SAMPLE_SPREADSHEET_ID = '1WS0uvF-a3Ui33ejOuZlW0wTZSjfSaXbqg3Hq_xjRuSM'
-SAMPLE_RANGE_NAME     = 'Data!A:C'
+SPREADSHEET_ID    = '1WS0uvF-a3Ui33ejOuZlW0wTZSjfSaXbqg3Hq_xjRuSM'
+SPREADSHEET_RANGE = 'Python!A:B'
+students          = [["5007-8A"], ["5007-8B"], ["5007-8C"]]
 
 def main():
     """Shows basic usage of the Sheets API.
@@ -38,18 +40,27 @@ def main():
 
     service = build('sheets', 'v4', credentials=creds)
 
-    # Call the Sheets API
-    sheet = service.spreadsheets()
-    result = sheet.values().get(spreadsheetId=SAMPLE_SPREADSHEET_ID,
-                                range=SAMPLE_RANGE_NAME).execute()
-    values = result.get('values', [])
+    time_now = datetime.datetime.now( )
+    rand_num = random.randrange( 3 )
 
-    if not values:
-        print('No data found.')
-    else:
-        for row in values:
-            # Print columns A through C, which correspond to indices 0 through 2.
-            print('%s, %s, %s' % (row[0], row[1], row[2]))
+    vals   = [[students[rand_num]],[str( time_now )]]
+    resource = {
+        "majorDimensions": "ROWS",
+        "values": vals
+    }
+
+    print( students[rand_num] )
+    print( str( time_now ) )
+
+    # Call the Sheets API
+    service.spreadsheets( ).values( ).append(
+       spreadsheetId=SPREADSHEET_ID,
+       range=SPREADSHEET_RANGE,
+       body=resource,
+       valueInputOption="RAW"
+    ).execute( )
+
+    print( result )
 
 if __name__ == '__main__':
     main()
