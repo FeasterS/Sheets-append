@@ -13,7 +13,6 @@ SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 # The ID and range of a sample spreadsheet.
 SPREADSHEET_ID    = '1WS0uvF-a3Ui33ejOuZlW0wTZSjfSaXbqg3Hq_xjRuSM'
 SPREADSHEET_RANGE = "Python!A:B"
-students          = [["5007-8A"], ["5007-8B"], ["5007-8C"]]
 
 def main():
     """Shows basic usage of the Sheets API.
@@ -41,15 +40,12 @@ def main():
     service = build('sheets', 'v4', credentials=creds)
 
     time_now = datetime.datetime.now( )
-    rand_num = random.randrange( 3 )
+    id       = input( )
 
     resource = {
-        "majorDimension": "COLUMNS",
-        "values": [students[rand_num], [str( time_now )]],
+        "majorDimension": "ROWS",
+        "values": [[id, str( time_now )]],
     }
-
-    print( students[rand_num] )
-    print( str( time_now ) )
 
     # Call the Sheets API
     request = service.spreadsheets( ).values( ).append(
