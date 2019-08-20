@@ -8,11 +8,11 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 
 # If modifying these scopes, delete the file token.pickle.
-SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
+SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 
 # The ID and range of a sample spreadsheet.
 SPREADSHEET_ID    = '1WS0uvF-a3Ui33ejOuZlW0wTZSjfSaXbqg3Hq_xjRuSM'
-SPREADSHEET_RANGE = 'Python!A:B'
+SPREADSHEET_RANGE = "Python!A:B"
 students          = [["5007-8A"], ["5007-8B"], ["5007-8C"]]
 
 def main():
@@ -43,24 +43,23 @@ def main():
     time_now = datetime.datetime.now( )
     rand_num = random.randrange( 3 )
 
-    vals   = [[students[rand_num]],[str( time_now )]]
     resource = {
-        "majorDimensions": "ROWS",
-        "values": vals
+        "majorDimension": "COLUMNS",
+        "values": [students[rand_num], [str( time_now )]],
     }
 
     print( students[rand_num] )
     print( str( time_now ) )
 
     # Call the Sheets API
-    service.spreadsheets( ).values( ).append(
+    request = service.spreadsheets( ).values( ).append(
        spreadsheetId=SPREADSHEET_ID,
        range=SPREADSHEET_RANGE,
        body=resource,
-       valueInputOption="RAW"
-    ).execute( )
+       valueInputOption="RAW", )
+    response = request.execute( )
 
-    print( result )
+    print( "Complete!" )
 
 if __name__ == '__main__':
     main()
