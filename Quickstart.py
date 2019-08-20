@@ -42,7 +42,7 @@ def confirm_credentials( my_creds ):
             my_creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
         with open('token.pickle', 'wb') as token:
-            pickle.dump(creds, token)
+            pickle.dump(my_creds, token)
     return my_creds
 
 def main():
@@ -53,15 +53,15 @@ def main():
     # Infinite loop to continuously run, as application will in the future.
     # There is a break condition for "quit".
     while ( True ):
-        in       = input( "Awaiting Input\n") # Holds until Input is entered
+        data     = input( "Awaiting Input\n" ) # Holds until Input is entered
         time_now = datetime.datetime.now( )   # Grab time for timestamp
 
-        if ( in.lower( )=="quit" ):
+        if ( data.lower( )=="quit" ):
             break
         # Builds up the resource that's going to be uploaded
         resource = {
             "majorDimension": "ROWS",          # Each main box will be one of these
-            "values": [[in, str( time_now )]], # One row, two values
+            "values": [[data, str( time_now )]], # One row, two values
         }
         # Prepare a request
         request = service.spreadsheets( ).values( ).append(
